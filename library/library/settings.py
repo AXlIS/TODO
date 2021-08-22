@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3-d part apps
     'rest_framework',
     # customs apps
+    'users'
 
 ]
 
