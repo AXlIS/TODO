@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
 
-class User(models.Model):
+class User(AbstractUser):
     ADMIN = 'AD'
     MANAGER = 'MG'
     DEVELOPER = 'DEV'
@@ -14,8 +15,5 @@ class User(models.Model):
         (DEVELOPER, 'Developer')
     ]
 
-    name = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
     email = models.EmailField(max_length=128, unique=True)
     status = models.CharField(max_length=3, choices=STATUS_CHOICES)
-    tasks = models.PositiveIntegerField()

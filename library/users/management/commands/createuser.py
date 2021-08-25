@@ -10,10 +10,10 @@ class Command(BaseCommand):
         User.objects.all().delete()
         count = options['count']
         for i in range(count):
-            user = User.objects.create(name=f'User{i + 1}',
-                                       surname=f'Surname{i + 1}',
+            user = User.objects.create(username=f'User{i + 1}',
+                                       first_name=f'Name{i + 1}',
+                                       last_name=f'Surname{i + 1}',
                                        email=f'email{i+1}@gmail.com',
-                                       status='DEV',
-                                       tasks=i)
+                                       status='DEV')
             print(f'user {user} created')
 
