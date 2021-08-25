@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 
 try:
-    with open('./secret_data/secret_key.json') as f:
+    with open('./secrets_data/secret_key.json') as f:
         data = json.load(f)
 except FileNotFoundError:
     print('File not found.')

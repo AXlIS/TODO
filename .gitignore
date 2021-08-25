@@ -4,3 +4,4 @@
 /library/secret_data/
 library/__pycache__/
 /library/db2.sqlite3
+/library/secrets_data/
