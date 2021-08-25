@@ -12,3 +12,4 @@ library/__pycache__/
 >>>>>>> JS
 /library/__init__.py
 /library/db2.sqlite3
+/library/secrets_data/
