@@ -13,9 +13,10 @@ import json
 from pathlib import Path
 
 try:
-    from library.local_settings import *
-except ModuleNotFoundError:
-    print('use global settings')
+    with open('./secret_data/secret_key.json') as f:
+        data = json.load(f)
+except FileNotFoundError:
+    print('File not found.')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "p0u5@&v^6s%04t#+^t45ce_od)=8bf4w((!gy3yvh*67e@5wuj"
+SECRET_KEY = data.get('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
