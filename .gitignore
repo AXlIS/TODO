@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 /library/frontend/node_modules/
 /library/frontend/.idea/
 /venv
 /.idea
+=======
+/venv/
+.idea
+/library/db.sqlite3
+/library/secret_data/
+library/__pycache__/
+>>>>>>> JS
+/library/__init__.py
