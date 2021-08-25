@@ -1,2 +1,4 @@
 /library/frontend/node_modules/
 /library/frontend/.idea/
+/venv
+/.idea
