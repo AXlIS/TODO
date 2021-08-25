@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import json
 from pathlib import Path
 
-with open('secret_data/secret_key.json') as f:
-    data = json.load(f)
+try:
+    from library.local_settings import *
+except ModuleNotFoundError:
+    print('use global settings')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -22,7 +24,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = data.get('secretKey')
+SECRET_KEY = "p0u5@&v^6s%04t#+^t45ce_od)=8bf4w((!gy3yvh*67e@5wuj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,13 +79,6 @@ WSGI_APPLICATION = 'library.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
