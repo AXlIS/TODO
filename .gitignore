@@ -1,15 +1,16 @@
 <<<<<<< HEAD
-/library/frontend/node_modules/
-/library/frontend/.idea/
+/TODO/frontend/node_modules/
+/TODO/frontend/.idea/
 /venv
 /.idea
-/library/db.sqlite3
+/TODO/db.sqlite3
 =======
 /venv/
 .idea
-/library/secret_data/
-library/__pycache__/
+/TODO/secret_data/
+TODO/__pycache__/
 >>>>>>> JS
-/library/__init__.py
-/library/db2.sqlite3
-/library/secrets_data/
+/TODO/__init__.py
+/TODO/db2.sqlite3
+/TODO/secrets_data/
+/TODO/__init__.py
