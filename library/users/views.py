@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
-from library.users.serializers import UserModelSerializer
-from library.users.models import User
+from .serializers import UserModelSerializer
+from .models import User
 
 
 # Create your views here.
