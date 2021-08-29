@@ -1,18 +1,21 @@
 <<<<<<< HEAD
-/TODO/frontend/node_modules/
-/TODO/frontend/.idea/
+/library/frontend/node_modules/
+/library/frontend/.idea/
 /venv
 /.idea
-/TODO/db.sqlite3
+/library/db.sqlite3
 =======
 /venv/
 .idea
-/TODO/secret_data/
-TODO/__pycache__/
+/library/secret_data/
+library/__pycache__/
 >>>>>>> JS
-/TODO/__init__.py
-/TODO/db2.sqlite3
-/TODO/secrets_data/
-/TODO/__init__.py
-/library/data_secret/
+/library/__init__.py
 /library/db2.sqlite3
+/library/secrets_data/
+/library/data_secret/
+/library/users/management/commands/example_1.py
+/library/users/management/commands/example_4.py
+/library/users/management/commands/example_6.py
+/library/users/management/commands/python_models.py
+/library/todoapp/__init__.py
