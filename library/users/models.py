@@ -9,6 +9,9 @@ class User(AbstractUser):
     MANAGER = 'MG'
     DEVELOPER = 'DEV'
 
+    # class StatusChoices(models.TextChoices):
+    #     ADMIN = 'AD', 'Administrator'
+
     STATUS_CHOICES = [
         (ADMIN, 'Administrator'),
         (MANAGER, 'Manager'),

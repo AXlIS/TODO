@@ -1,12 +1,17 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, HyperlinkedRelatedField
+from rest_framework.serializers import HyperlinkedModelSerializer, SlugRelatedField
 from users.serializers import UserModelSerializer
 from .models import Project, Task
 
 
 class TaskModelSerializer(HyperlinkedModelSerializer):
+    creating_user = SlugRelatedField(
+        read_only=True,
+        slug_field='id'
+    )
+
     class Meta:
         model = Task
-        fields = ['text', 'status', 'created_at']
+        fields = ['text', 'status', 'created_at', 'creating_user']
 
 
 class ProjectModelSerializer(HyperlinkedModelSerializer):
