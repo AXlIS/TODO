@@ -1,23 +1,7 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {API_BASE_URL} from "../Users";
+import React from "react";
+import './tasks.css'
 
-export function Tasks(){
-  const [tasks, setTasks] = useState([])
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}tasks/`)
-      .then((response) => {
-        const data = response.data.results.map((item) => {
-          return {
-            text: item.text,
-            status: item.status
-          }
-        })
-        setTasks(data)
-      })
-  }, [])
+export function Tasks({tasks}){
 
   return (
     <table className={'table'}>
@@ -29,7 +13,7 @@ export function Tasks(){
       </thead>
       <tbody>
       {tasks.map((item) => (
-        <tr>
+        <tr key={item.id}>
           <td>{item.text}</td>
           <td>{item.status}</td>
         </tr>

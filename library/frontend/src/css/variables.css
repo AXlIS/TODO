@@ -3,7 +3,14 @@
     --main-font: "Muller", "Helvetica", sans-serif;
 
     --blue: #2f80ed;
-    --light-blue: #82b6ff;
+    --medium-blue: #82b6ff;
+    --light-blue: #cadefa;
     --white: #eef4fb;
     --text: #333333;
+
+    --green: #65b670;
+    --red: #c9666c;
+
+    --light-green: #d7f9e0;
+    --light-red: #fbe3e3;
 }

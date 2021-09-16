@@ -20,3 +20,7 @@ class User(AbstractUser):
 
     email = models.EmailField(max_length=128, unique=True)
     status = models.CharField(max_length=3, choices=STATUS_CHOICES)
+
+    class Meta:
+        ordering = ['id']
+    # TODO

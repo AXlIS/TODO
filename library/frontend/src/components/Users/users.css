@@ -19,7 +19,7 @@ th {
 }
 
 td {
-    background: var(--light-blue);
+    background: var(--medium-blue);
 }
 
 th:first-child, td:first-child {

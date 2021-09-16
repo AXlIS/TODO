@@ -1,35 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import axios from "axios";
-import {API_BASE_URL} from "../Users";
+import React from 'react'
 
-export function Projects() {
-  const [projects, setProjects] = useState([])
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}projects/`)
-      .then((response) => {
-        const data = response.data.results.map((item) => {
-          return {
-            title: item.title,
-            link: item.link
-          }
-        })
-        setProjects(data)
-      })
-  }, [])
+export function Projects({projects}) {
 
   return (
     <table className={'table'}>
       <thead>
       <tr>
+        <th>Id</th>
         <th>Title</th>
         <th>Link</th>
       </tr>
       </thead>
       <tbody>
       {projects.map((item) => (
-        <tr>
+        <tr key={item.id}>
+          <td>{item.id}</td>
           <td>{item.title}</td>
           <td>{item.link}</td>
         </tr>
