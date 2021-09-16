@@ -15,26 +15,31 @@ class App extends React.Component {
       'users': [],
       'projects': [],
       'tasks': [],
-      'token': ''
+      'token': ""
     };
   }
 
   getData() {
+
     axios
-      .get(`${API_BASE_URL}/users/`, {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${this.state.token}`
-      })
+      .get('http://127.0.0.1:8000/api/users/', {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${this.state.token}`
+          }
+        }
+      )
       .then(response => {
         this.setState({'users': response.data.results})
       })
       .catch(error => console.log(error))
-    // .then(() => {console.log(this.state)})
 
     axios
       .get(`${API_BASE_URL}/projects/`, {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${this.state.token}`
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Token ${this.state.token}`
+        }
       })
       .then((response) => {
         const data = response.data.results.map((item) => {
@@ -51,8 +56,10 @@ class App extends React.Component {
 
     axios
       .get(`${API_BASE_URL}/tasks/`, {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${this.state.token}`
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Token ${this.state.token}`
+        }
       })
       .then((response) => {
         const data = response.data.results.map((item) => {
@@ -70,9 +77,11 @@ class App extends React.Component {
 
   setToken() {
     const token = localStorage.getItem('token')
+
     if (token) {
-      this.setState({'token': token})
-      this.getData()
+      this.setState({'token': token}, () => {
+        this.getData()
+      })
     }
   }
 
