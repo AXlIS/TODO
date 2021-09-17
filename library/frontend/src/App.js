@@ -2,15 +2,16 @@ import React from 'react';
 import {Users} from "./components/Users/Users";
 import axios from 'axios'
 import {API_BASE_URL} from "./config";
-import {Route} from 'react-router-dom'
+import {BrowserRouter, Route} from 'react-router-dom'
 import './App.css';
 import {Projects} from "./components/Projects/Projects";
 import {Tasks} from "./components/Tasks/Tasks";
-import {tokenContext} from "./context/tokenContext";
+import Header from "./components/Header/Header";
+import {AuthPage} from "./components/Auth/Auth";
+import {stateContext} from "./context/stateContext";
 
 
 class App extends React.Component {
-  static contextType = tokenContext
 
   constructor(props) {
     super(props);
@@ -23,13 +24,17 @@ class App extends React.Component {
     this.getData = this.getData.bind(this)
   }
 
+  isAuthorized() {
+    return !!this.state.token
+  }
+
   getData() {
 
     axios
       .get('http://127.0.0.1:8000/api/users/', {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${this.context.value}`
+            "Authorization": `Token ${this.state.token}`
           }
         }
       )
@@ -42,7 +47,7 @@ class App extends React.Component {
       .get(`${API_BASE_URL}/projects/`, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.context.value}`
+          "Authorization": `Token ${this.state.token}`
         }
       })
       .then((response) => {
@@ -62,7 +67,7 @@ class App extends React.Component {
       .get(`${API_BASE_URL}/tasks/`, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.context.value}`
+          "Authorization": `Token ${this.state.token}`
         }
       })
       .then((response) => {
@@ -83,9 +88,15 @@ class App extends React.Component {
     const token = localStorage.getItem('token')
 
     if (token) {
-      this.context.onChange(token)
       this.setState({'token': token}, () => {
         this.getData()
+      })
+    } else {
+      this.setState({
+        'users': [],
+        'projects': [],
+        'tasks': [],
+        'token': '',
       })
     }
   }
@@ -96,25 +107,39 @@ class App extends React.Component {
 
   render() {
     return (
-      <main>
-        {!this.context.value && (<div className={"main-fail"}>
-          <h2>Эта страница доступна только после авторизации</h2>
-        </div>)}
-
-        {this.context.value &&
-        (<span>
-          <Route exact path={['/', '/users']}>
-            <Users users={this.state.users}/>
+      <stateContext.Provider value={{
+        value: this.state,
+        onChange: (value, callback = () => {
+        }) => this.setState(value, callback),
+        setToken: () => this.setToken()
+      }}>
+        <BrowserRouter>
+          <Header login={this.isAuthorized()}/>
+          <Route exact path={['/', '/users', '/projects', '/tasks']}>
+            <main>
+              {!this.isAuthorized() && (<div className={"main-fail"}>
+                <h2>Эта страница доступна только после авторизации</h2>
+              </div>)}
+              {this.isAuthorized() && (
+                <span>
+                  <Route exact path={['/', '/users']}>
+                    <Users users={this.state.users}/>
+                  </Route>
+                  <Route path={'/projects'}>
+                    <Projects projects={this.state.projects}/>
+                  </Route>
+                  <Route exact path={'/tasks'}>
+                    <Tasks tasks={this.state.tasks}/>
+                  </Route>
+                </span>
+              )}
+            </main>
           </Route>
-          <Route path={'/projects'}>
-            <Projects projects={this.state.projects}/>
+          <Route path={'/auth'}>
+            <AuthPage/>
           </Route>
-          <Route exact path={'/tasks'}>
-            <Tasks tasks={this.state.tasks}/>
-          </Route>
-        </span>)
-        }
-      </main>
+        </BrowserRouter>
+      </stateContext.Provider>
     )
   }
 }

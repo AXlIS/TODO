@@ -1,11 +1,9 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {Link} from "react-router-dom";
 import './header.css'
 import {LogOut} from "../LogOut/LogOut";
-import {tokenContext} from "../../context/tokenContext";
 
-export default function Header() {
-  const {value} = useContext(tokenContext)
+export default function Header({login}) {
 
   return (
     <header className={"header"}>
@@ -14,7 +12,7 @@ export default function Header() {
           <h1 className={"header_text"}>TODO</h1>
         </div>
         {
-          value ? (
+          login ? (
             <nav>
               <ul className={"navbar"}>
                 <li className={"navbar_item"}>

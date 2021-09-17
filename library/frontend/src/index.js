@@ -3,24 +3,10 @@ import ReactDOM from 'react-dom';
 import './css/style.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Header from "./components/Header/Header";
-import {BrowserRouter, Route} from "react-router-dom";
-import {AuthPage} from "./components/Auth/Auth";
-import {TokenContextProvider} from "./context/tokenContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <TokenContextProvider>
-        <Header/>
-        <Route exact path={['/', '/users', '/projects', '/tasks']}>
-          <App/>
-        </Route>
-        <Route path={'/auth'}>
-          <AuthPage/>
-        </Route>
-      </TokenContextProvider>
-    </BrowserRouter>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,13 +1,15 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import "./authform.css"
 import axios from "axios";
 import {API_BASE_URL} from "../../config";
 import {useHistory} from "react-router-dom";
+import {stateContext} from "../../context/stateContext";
 
 export function AuthForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [fail, setFail] = useState(false)
+  const {onChange, setToken} = useContext(stateContext)
 
   const history = useHistory()
 
@@ -22,6 +24,7 @@ export function AuthForm() {
     })
       .then((response) => {
         localStorage.setItem('token', response.data.token)
+        onChange({token: response.data.token}, setToken)
         history.push('/')
       })
       .catch((error) => {
