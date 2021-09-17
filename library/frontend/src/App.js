@@ -6,17 +6,21 @@ import {Route} from 'react-router-dom'
 import './App.css';
 import {Projects} from "./components/Projects/Projects";
 import {Tasks} from "./components/Tasks/Tasks";
+import {tokenContext} from "./context/tokenContext";
 
 
 class App extends React.Component {
+  static contextType = tokenContext
+
   constructor(props) {
     super(props);
     this.state = {
       'users': [],
       'projects': [],
       'tasks': [],
-      'token': ""
+      'token': '',
     };
+    this.getData = this.getData.bind(this)
   }
 
   getData() {
@@ -25,7 +29,7 @@ class App extends React.Component {
       .get('http://127.0.0.1:8000/api/users/', {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Token ${this.state.token}`
+            "Authorization": `Token ${this.context.value}`
           }
         }
       )
@@ -38,7 +42,7 @@ class App extends React.Component {
       .get(`${API_BASE_URL}/projects/`, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.state.token}`
+          "Authorization": `Token ${this.context.value}`
         }
       })
       .then((response) => {
@@ -58,7 +62,7 @@ class App extends React.Component {
       .get(`${API_BASE_URL}/tasks/`, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Token ${this.state.token}`
+          "Authorization": `Token ${this.context.value}`
         }
       })
       .then((response) => {
@@ -79,6 +83,7 @@ class App extends React.Component {
     const token = localStorage.getItem('token')
 
     if (token) {
+      this.context.onChange(token)
       this.setState({'token': token}, () => {
         this.getData()
       })
@@ -87,17 +92,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setToken()
-
   }
 
   render() {
     return (
       <main>
-        {!this.state.token && (<div className={"main-fail"}>
+        {!this.context.value && (<div className={"main-fail"}>
           <h2>Эта страница доступна только после авторизации</h2>
         </div>)}
 
-        {this.state.token &&
+        {this.context.value &&
         (<span>
           <Route exact path={['/', '/users']}>
             <Users users={this.state.users}/>

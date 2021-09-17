@@ -1,16 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext} from 'react'
 import {Link} from "react-router-dom";
 import './header.css'
 import {LogOut} from "../LogOut/LogOut";
+import {tokenContext} from "../../context/tokenContext";
 
 export default function Header() {
-  const [token, setToken] = useState('')
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      setToken(token)
-    }
-  }, [])
+  const {value} = useContext(tokenContext)
 
   return (
     <header className={"header"}>
@@ -19,7 +14,7 @@ export default function Header() {
           <h1 className={"header_text"}>TODO</h1>
         </div>
         {
-          token ? (
+          value ? (
             <nav>
               <ul className={"navbar"}>
                 <li className={"navbar_item"}>

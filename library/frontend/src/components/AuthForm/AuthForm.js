@@ -7,7 +7,6 @@ import {useHistory} from "react-router-dom";
 export function AuthForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const [success, setSuccess] = useState(false)
   const [fail, setFail] = useState(false)
 
   const history = useHistory()
@@ -24,7 +23,6 @@ export function AuthForm() {
       .then((response) => {
         localStorage.setItem('token', response.data.token)
         history.push('/')
-        window.location.reload()
       })
       .catch((error) => {
         setFail(true)
@@ -42,10 +40,6 @@ export function AuthForm() {
         <h2>Sign in to your account</h2>
         <span>or <a href={"/#"}>you can register</a></span>
       </div>
-
-      {/*{success && (<div className={"success"}>*/}
-      {/*  <h4>Вы успешно авторизированы</h4>*/}
-      {/*</div>)}*/}
 
       {fail && (<div className={"fail"}>
         <h4>Не верный логин или пароль</h4>
