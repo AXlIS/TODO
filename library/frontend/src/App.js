@@ -2,13 +2,14 @@ import React from 'react';
 import {Users} from "./components/Users/Users";
 import axios from 'axios'
 import {API_BASE_URL} from "./config";
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import './App.css';
 import {Projects} from "./components/Projects/Projects";
 import {Tasks} from "./components/Tasks/Tasks";
 import Header from "./components/Header/Header";
 import {AuthPage} from "./components/Auth/Auth";
 import {stateContext} from "./context/stateContext";
+import {NotFound} from "./components/NotFound/NotFound";
 
 
 class App extends React.Component {
@@ -115,29 +116,39 @@ class App extends React.Component {
       }}>
         <BrowserRouter>
           <Header login={this.isAuthorized()}/>
-          <Route exact path={['/', '/users', '/projects', '/tasks']}>
-            <main>
-              {!this.isAuthorized() && (<div className={"main-fail"}>
-                <h2>Эта страница доступна только после авторизации</h2>
-              </div>)}
-              {this.isAuthorized() && (
-                <span>
-                  <Route exact path={['/', '/users']}>
-                    <Users users={this.state.users}/>
-                  </Route>
-                  <Route path={'/projects'}>
-                    <Projects projects={this.state.projects}/>
-                  </Route>
-                  <Route exact path={'/tasks'}>
-                    <Tasks tasks={this.state.tasks}/>
-                  </Route>
-                </span>
-              )}
-            </main>
-          </Route>
-          <Route path={'/auth'}>
-            <AuthPage/>
-          </Route>
+          <Switch>
+            <Route exact path={'/auth'}>
+              <AuthPage/>
+            </Route>
+            <Route exact path={'/notFound'}>
+              <NotFound/>
+            </Route>
+            <Route path={'/main'}>
+              <main>
+                {!this.isAuthorized() && (<div className={"main-fail"}>
+                  <h2>Эта страница доступна только после авторизации</h2>
+                </div>)}
+                {this.isAuthorized() && (
+                  <span>
+                    <Switch>
+                      <Route exact path={['/main', '/main/users']}>
+                        <Users users={this.state.users}/>
+                      </Route>
+                      <Route exact path={'/main/projects'}>
+                        <Projects projects={this.state.projects}/>
+                      </Route>
+                      <Route exact path={'/main/tasks'}>
+                        <Tasks tasks={this.state.tasks}/>
+                      </Route>
+                      <Redirect from='/main/' to='/notFound'/>
+                    </Switch>
+                  </span>
+                )}
+              </main>
+            </Route>
+            <Redirect exact from='/' to='/main'/>
+            <Redirect from='*' to='/notFound'/>
+          </Switch>
         </BrowserRouter>
       </stateContext.Provider>
     )

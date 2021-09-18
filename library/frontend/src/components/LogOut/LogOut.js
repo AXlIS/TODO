@@ -12,6 +12,6 @@ export function LogOut() {
   }
 
   return (
-    <li className={"logout"} onClick={handleClick}>Log Out</li>
+    <li className={"logout"} onClick={handleClick}><nobr>Log Out</nobr></li>
   )
 }

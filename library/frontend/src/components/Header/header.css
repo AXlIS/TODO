@@ -42,13 +42,25 @@ nav {
 
 .navbar_item {
     font-size: 20px;
+    /*outline: 1px;*/
+    /*border: .175rem solid var(--white);*/
+    /*border-radius: .375rem;*/
+    /*padding: 6px 7px;*/
     margin: 0 10px;
+}
+
+.navbar_title_link {
+    display: inherit;
+    text-decoration: none;
+    color: var(--white);
+    width: 100px;
 }
 
 .navbar_item_link {
     display: inherit;
     text-decoration: none;
     color: var(--white);
+    width: 30px;
 }
 
 .login_block {

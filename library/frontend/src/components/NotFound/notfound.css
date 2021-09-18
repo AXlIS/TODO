@@ -1,0 +1,10 @@
+.main-fail {
+    color: var(--red);
+    background-color: var(--light-red);
+    border-radius: .375rem;
+}
+
+.main-fail h2 {
+    margin: 40px 0 0 0;
+    padding: 10px;
+}

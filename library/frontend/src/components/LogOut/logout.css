@@ -1,3 +1,8 @@
 .logout {
+    font-size: 17px;
     cursor: pointer;
+    /*outline: 1px;*/
+    /*border: .175rem solid var(--white);*/
+    /*border-radius: .375rem;*/
+    /*padding: 6px 7px;*/
 }
