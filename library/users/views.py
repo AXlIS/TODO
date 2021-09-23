@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
-from .serializers import UserModelSerializer
+from .serializers import UserModelSerializer, UserModelBaseSerializer
 from .models import User
 
 
@@ -8,4 +8,8 @@ from .models import User
 
 class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return UserModelSerializer
+        return UserModelBaseSerializer
