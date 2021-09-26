@@ -17,6 +17,7 @@ try:
     with open('./data_secret/secret_key.json') as f:
         data = json.load(f)
 except FileNotFoundError:
+    data = {}
     print('File not found.')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = data.get('secret_key')
+SECRET_KEY = data.get('secret_key', '*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     # 'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'django_filters',
+    # "django.contrib.staticfiles",
+    "graphene_django",
     'corsheaders',
     'drf_yasg',
     # customs apps
@@ -161,7 +164,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.DjangoModelPermissions'
     ],
 
@@ -194,4 +197,8 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule'
+}
+
+GRAPHENE = {
+    "SCHEMA": "library.schema.schema"
 }

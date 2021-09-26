@@ -33,12 +33,8 @@ class App extends React.Component {
 
     axios
       .get('http://127.0.0.1:8000/api/users/', {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${this.state.token}`
-          }
-        }
-      )
+        headers: this.getHeaders()
+      })
       .then(response => {
         this.setState({'users': response.data.results})
       })
@@ -46,10 +42,7 @@ class App extends React.Component {
 
     axios
       .get(`${API_BASE_URL}/projects/`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${this.state.token}`
-        }
+        headers: this.getHeaders()
       })
       .then((response) => {
         const data = response.data.results.map((item) => {
@@ -66,10 +59,7 @@ class App extends React.Component {
 
     axios
       .get(`${API_BASE_URL}/tasks/`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${this.state.token}`
-        }
+        headers: this.getHeaders()
       })
       .then((response) => {
         const data = response.data.results.map((item) => {
@@ -83,6 +73,13 @@ class App extends React.Component {
       })
       .catch(console.log)
     // .then(() => {console.log(this.state)})
+  }
+
+  getHeaders() {
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${this.state.token}`
+    }
   }
 
   setToken() {
