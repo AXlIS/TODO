@@ -21,12 +21,27 @@ class App extends React.Component {
       'projects': [],
       'tasks': [],
       'token': '',
+      'project': null,
+      'task': '',
     };
     this.getData = this.getData.bind(this)
   }
 
   isAuthorized() {
     return !!this.state.token
+  }
+
+  getUserInfo (){
+    axios
+      .get('http://127.0.0.1:8000/api/user/',{
+        headers: this.getHeaders()
+      })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   getData() {
@@ -88,6 +103,7 @@ class App extends React.Component {
     if (token) {
       this.setState({'token': token}, () => {
         this.getData()
+        this.getUserInfo()
       })
     } else {
       this.setState({
@@ -127,6 +143,28 @@ class App extends React.Component {
                 </div>)}
                 {this.isAuthorized() && (
                   <span>
+                    <div className={'project_block'}>
+                      <div className={"project_block_title"}>
+                        <h2>Мои проекты</h2>
+                      </div>
+                      <form className={"project_form"} method={"POST"}>
+                        <div>
+                          <select className={'project_form_select'} name="" id="">
+                            <option value="1">1</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor={"add_task"} className={"project_form_label"}/>
+                          <input required id={"add_task"} name={"add_task"} type={"text"}
+                                 className={"add_task_input"} placeholder={"Добавить новую задачу: "}/>
+                        </div>
+                        <div>
+                          <button className={"project_form_button"}>
+                            Add
+                          </button>
+                        </div>
+                      </form>
+                    </div>
                     <Switch>
                       <Route exact path={['/main', '/main/users']}>
                         <Users users={this.state.users}/>

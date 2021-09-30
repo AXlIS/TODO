@@ -23,6 +23,7 @@ export function AuthForm() {
       "password": password,
     })
       .then((response) => {
+
         localStorage.setItem('token', response.data.token)
         onChange({token: response.data.token}, setToken)
         history.push('/')
@@ -51,7 +52,7 @@ export function AuthForm() {
       <form className={"auth_form"} method={"POST"} onChange={handleChange} onSubmit={getToken}>
         <div>
           <div>
-            <label htmlFor={"username"} className={"auth-form-label"}/>
+            <label htmlFor={"username"} className={"auth_form_label"}/>
             <input required id={"username"} name={"username"} type={"text"} value={username}
                    className={"email"} placeholder={"Email address"}/>
           </div>
