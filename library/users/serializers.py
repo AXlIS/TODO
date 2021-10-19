@@ -1,6 +1,15 @@
-from rest_framework.relations import SlugRelatedField
+from rest_framework.relations import SlugRelatedField, StringRelatedField
 from rest_framework.serializers import HyperlinkedModelSerializer
+
+from todoapp.models import Project
 from .models import User
+
+
+class ProjectModelSerializer(HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ['id', 'title']
 
 
 class UserModelBaseSerializer(HyperlinkedModelSerializer):
@@ -10,11 +19,7 @@ class UserModelBaseSerializer(HyperlinkedModelSerializer):
 
 
 class UserModelSerializer(HyperlinkedModelSerializer):
-    projects = SlugRelatedField(
-        read_only=True,
-        slug_field='id',
-        many=True
-    )
+    projects = ProjectModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = User

@@ -13,4 +13,12 @@
 
     --light-green: #d7f9e0;
     --light-red: #fbe3e3;
+    --light-gray: #e3e3e3;
+
+    --input-border-active-color: #82b6ff;
+    --task-active-border-color: #d6d6d6;
+    --btn-clear-hover-color: #d18d91;
+    --inactive-color: #d0d0d0;
+
+    --animation: 0.155s ease-in-out;
 }

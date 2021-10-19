@@ -1,0 +1,6 @@
+.taskboard__list {
+  margin: 0;
+  padding: 0;
+  /* max-height: calc(100% - 56px); */
+  list-style: none;
+}

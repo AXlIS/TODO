@@ -1,0 +1,60 @@
+.taskboard__item {
+    margin-bottom: 8px;
+}
+
+.task {
+    position: relative;
+    width: 100%;
+    padding: 0 14px;
+    display: flex;
+    user-select: none;
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.25;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    border-right: 1px solid transparent;
+
+    border-radius: 8px;
+    background-color: #ffffff;
+
+    /*transition: var(--animation);*/
+}
+
+.task--backlog {
+    border-left: 6px solid var(--light-gray);
+}
+
+.task--processing {
+    border-left: 6px solid var(--light-blue);
+}
+
+.task--done {
+    border-left: 6px solid var(--light-green);
+}
+
+.task--basket {
+    border-left: 6px solid var(--light-red);
+}
+
+/*.task--backlog:hover {*/
+/*    border: 1px solid var(--light-gray);*/
+/*}*/
+
+/*.task--processing:hover {*/
+/*    border: 1px solid var(--light-blue);*/
+/*}*/
+
+/*.task--done:hover {*/
+/*    border: 1px solid var(--light-green);*/
+/*}*/
+
+/*.task--basket:hover {*/
+/*    border: 1px solid var(--light-red);*/
+/*}*/
+
+/*.task:hover {*/
+/*    cursor: pointer;*/
+/*}*/
+

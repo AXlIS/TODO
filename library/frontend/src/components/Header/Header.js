@@ -9,23 +9,12 @@ export default function Header({login}) {
     <header className={"header"}>
       <div className={"header_container"}>
         <div className={"header_block"}>
-          <h1 className={"header_text"}><Link className={'navbar_title_link'} to={'/'} >TODO</Link></h1>
+          <h1 className={"header_text"}><Link className={'navbar_title_link'} to={'/'}>TODO</Link></h1>
         </div>
         {
           login ? (
             <nav>
-              <ul className={"navbar"}>
-                <li className={"navbar_item"}>
-                  <Link className={'navbar_item_link'} to={'/main/users'}>Users</Link>
-                </li>
-                <li className={"navbar_item"}>
-                  <Link className={'navbar_item_link'} to={'/main/projects'}>Project</Link>
-                </li>
-                <li className={"navbar_item"}>
-                  <Link className={'navbar_item_link'} to={'/main/tasks'}>Tasks</Link>
-                </li>
-                <LogOut/>
-              </ul>
+              <LogOut/>
             </nav>
           ) : (
             <div className={"login_block"}>

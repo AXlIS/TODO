@@ -1,0 +1,69 @@
+.taskboard__group {
+    height: 100%;
+    width: calc((100% - (40px * 3)) / 4);
+    display: flex;
+    flex-direction: column;
+}
+
+.taskboard__group__title {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    padding: 12px 18px 10px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 8px;
+    cursor: default;
+    user-select: none;
+}
+
+.taskboard__group__title--backlog {
+    color: #6a6a6a;
+    background-color: var(--light-gray);
+}
+
+.taskboard__group__title--processing {
+    color: var(--blue);
+    background-color: var(--light-blue);
+}
+
+.taskboard__group__title--done {
+    color: #65b670;
+    background-color: var(--light-green);
+}
+
+.taskboard__group__title--basket {
+    color: var(--red);
+    background-color: var(--light-red);
+}
+
+.taskboard__button {
+    margin-top: 8px;
+    width: 100%;
+    padding: 0;
+    justify-content: center;
+}
+
+.button--clear {
+    font-family: "Muller", "Helvetica", sans-serif;;
+    background-color: var(--red);
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    border: none;
+    min-width: 165px;
+    min-height: 46px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+    color: #ffffff;
+    border-radius: 8px;
+    transition: var(--animation);
+    cursor: pointer;
+}
+
+.button--clear:hover {
+    background-color: var(--btn-clear-hover-color);
+}

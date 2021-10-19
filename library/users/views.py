@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from .serializers import UserModelSerializer, UserModelBaseSerializer
 from rest_framework.decorators import api_view, renderer_classes

@@ -1,7 +1,7 @@
 import React from "react";
 import './tasks.css'
 
-export function Tasks({tasks}){
+export function Tasks({tasks}) {
 
   return (
     <table className={'table'}>

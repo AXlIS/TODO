@@ -8,6 +8,11 @@ html {
     box-sizing: border-box;
 }
 
+div {
+    border: white;
+    outline: none;
+}
+
 html,
 body {
     margin: 0;

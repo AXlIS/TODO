@@ -69,10 +69,6 @@
     margin: 2px 0;
 }
 
-.auth_form {
-    margin: 40px 0 0 0;
-}
-
 .project_form_label {
     position: absolute;
     width: 1px;
@@ -89,7 +85,6 @@
     width: 100%;
     display: block;
     outline: none;
-    font-size: 20px;
     font-family: var(--main-font);
     line-height: 1.25rem;
     padding: .5rem .75rem;
@@ -98,7 +93,10 @@
     font-family: var(--main-font);
     box-sizing: border-box;
     --tw-border-opacity: 1;
-    margin: 0 0 15px 0
+    margin: 0 0 15px 0;
+    font-size: .875rem;
+    height: 40px;
+    color: var(--text);
 }
 
 .add_task_input {

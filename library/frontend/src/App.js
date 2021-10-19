@@ -1,15 +1,15 @@
 import React from 'react';
-import {Users} from "./components/Users/Users";
 import axios from 'axios'
 import {API_BASE_URL} from "./config";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom'
 import './App.css';
-import {Projects} from "./components/Projects/Projects";
-import {Tasks} from "./components/Tasks/Tasks";
+import {DragDropContext} from 'react-beautiful-dnd'
 import Header from "./components/Header/Header";
 import {AuthPage} from "./components/Auth/Auth";
 import {stateContext} from "./context/stateContext";
 import {NotFound} from "./components/NotFound/NotFound";
+import {ProjectsBlock} from "./components/ProjectBlock/ProjectBlock";
+import {TaskBoard} from "./components/TaskBoard/TaskBoard";
 
 
 class App extends React.Component {
@@ -17,27 +17,36 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'users': [],
-      'projects': [],
-      'tasks': [],
-      'token': '',
-      'project': null,
-      'task': '',
+      user: {},
+      users: [],
+      projects: [],
+      columns: {
+        backlog: [],
+        processing: [],
+        done: [],
+        basket: [],
+      },
+      token: '',
+      project: null,
+      task: '',
     };
+
     this.getData = this.getData.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.getTasks = this.getTasks.bind(this)
   }
 
   isAuthorized() {
     return !!this.state.token
   }
 
-  getUserInfo (){
+  getUserInfo() {
     axios
-      .get('http://127.0.0.1:8000/api/user/',{
+      .get('http://127.0.0.1:8000/api/user/', {
         headers: this.getHeaders()
       })
       .then(response => {
-        console.log(response)
+        this.setState({"user": response.data, "projects": response.data.projects})
       })
       .catch(error => {
         console.log(error)
@@ -97,19 +106,47 @@ class App extends React.Component {
     }
   }
 
+  getTasks() {
+    if (this.state.project) {
+      axios
+        .get(`${API_BASE_URL}/projects/${this.state.project}/`, {
+          headers: this.getHeaders()
+        })
+        .then((response) => {
+          const tasks = response.data.tasks
+          this.setState({
+            columns: {
+              backlog: tasks.filter((item) => item.status === 'backlog'),
+              processing: tasks.filter((item) => item.status === 'processing'),
+              done: tasks.filter((item) => item.status === 'done'),
+              basket: tasks.filter((item) => item.status === 'basket'),
+            }
+          })
+        })
+    }
+  }
+
   setToken() {
     const token = localStorage.getItem('token')
 
     if (token) {
       this.setState({'token': token}, () => {
-        this.getData()
+        // this.getData()
         this.getUserInfo()
       })
     } else {
       this.setState({
+        'user': {},
         'users': [],
+        'project': null,
         'projects': [],
         'tasks': [],
+        columns: {
+          backlog: [],
+          processing: [],
+          done: [],
+          basket: [],
+        },
         'token': '',
       })
     }
@@ -119,13 +156,69 @@ class App extends React.Component {
     this.setToken()
   }
 
+  handleChange(event) {
+    if (parseInt(event.target.value)) {
+      this.setState({"project": parseInt(event.target.value)}, () => {
+        this.getTasks()
+      })
+    }
+  }
+
+  changeTaskStatus(task, status) {
+    axios
+      .put(`${API_BASE_URL}/tasks/${task.id}/`, {
+        ...task,
+        status: status
+      }, {
+        headers: this.getHeaders()
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  onDragEnd(result) {
+    const {source, destination} = result
+
+    if (!destination) return;
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceItems = this.state.columns[source.droppableId]
+      const destItems = this.state.columns[destination.droppableId]
+      const [removed] = sourceItems.splice(source.index, 1)
+      destItems.splice(destination.index, 0, removed)
+      this.setState({
+        columns: {
+          ...this.state.columns,
+          [source.droppableId]: sourceItems,
+          [destination.droppableId]: destItems
+        }
+      })
+      this.changeTaskStatus(removed, destination.droppableId)
+    } else {
+      const copiedItems = this.state.columns[source.droppableId]
+      const [removed] = copiedItems.splice(source.index, 1)
+      copiedItems.splice(destination.index, 0, removed);
+      this.setState({
+        columns: {
+          ...this.state.columns,
+          [source.droppableId]: copiedItems
+        }
+      })
+    }
+  }
+
   render() {
     return (
       <stateContext.Provider value={{
-        value: this.state,
+        state: this.state,
+        token: this.state.token,
         onChange: (value, callback = () => {
         }) => this.setState(value, callback),
-        setToken: () => this.setToken()
+        setToken: () => this.setToken(),
       }}>
         <BrowserRouter>
           <Header login={this.isAuthorized()}/>
@@ -139,46 +232,19 @@ class App extends React.Component {
             <Route path={'/main'}>
               <main>
                 {!this.isAuthorized() && (<div className={"main-fail"}>
-                  <h2>Эта страница доступна только после авторизации</h2>
+                  <h2>Для просмотра задач необходима авторизация</h2>
                 </div>)}
                 {this.isAuthorized() && (
-                  <span>
-                    <div className={'project_block'}>
-                      <div className={"project_block_title"}>
-                        <h2>Мои проекты</h2>
-                      </div>
-                      <form className={"project_form"} method={"POST"}>
-                        <div>
-                          <select className={'project_form_select'} name="" id="">
-                            <option value="1">1</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label htmlFor={"add_task"} className={"project_form_label"}/>
-                          <input required id={"add_task"} name={"add_task"} type={"text"}
-                                 className={"add_task_input"} placeholder={"Добавить новую задачу: "}/>
-                        </div>
-                        <div>
-                          <button className={"project_form_button"}>
-                            Add
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                    <Switch>
-                      <Route exact path={['/main', '/main/users']}>
-                        <Users users={this.state.users}/>
-                      </Route>
-                      <Route exact path={'/main/projects'}>
-                        <Projects projects={this.state.projects}/>
-                      </Route>
-                      <Route exact path={'/main/tasks'}>
-                        <Tasks tasks={this.state.tasks}/>
-                      </Route>
-                      <Redirect from='/main/' to='/notFound'/>
-                    </Switch>
-                  </span>
+                  <ProjectsBlock handleChange={(event) => this.handleChange(event)} getTasks={() => this.getTasks()}/>
                 )}
+                {this.state.project &&
+                <DragDropContext onDragEnd={(result) => this.onDragEnd(result)}>
+                  <TaskBoard backlog={this.state.columns.backlog}
+                             processing={this.state.columns.processing}
+                             done={this.state.columns.done}
+                             basket={this.state.columns.basket}/>
+                </DragDropContext>
+                }
               </main>
             </Route>
             <Redirect exact from='/' to='/main'/>

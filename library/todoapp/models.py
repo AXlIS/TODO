@@ -9,15 +9,15 @@ class Project(models.Model):
     link = models.URLField(blank=True)
     users = models.ManyToManyField(User, related_name='projects')
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title
 
 
 class Task(models.Model):
-    BACKLOG = 'BK'
-    PROCESSING = 'PC'
-    DONE = 'DN'
-    BASKET = 'BT'
+    BACKLOG = 'backlog'
+    PROCESSING = 'processing'
+    DONE = 'done'
+    BASKET = 'basket'
 
     STATUS_CHOICES = [
         (BACKLOG, 'Backlog'),
@@ -31,7 +31,7 @@ class Task(models.Model):
     creating_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateField(auto_now_add=True)
     update_at = models.DateField(auto_now=True)
-    status = models.CharField(max_length=4, default=BACKLOG, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=16, default=BACKLOG, choices=STATUS_CHOICES)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
